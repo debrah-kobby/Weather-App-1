@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <title>Weather App</title>
+  </head>
+  <body>
+    <div class="first_page">
+      <h1 class="weather-now">🌦️ Weather Now</h1>
+      <h2 class="enterCity">Enter City to get your weather details</h2>
+      <form class="weatherForm">
+        <input type="text" class="cityInput" placeholder="Enter city name" />
+        <button class="submitBtn" type="submit">Get Weather</button>
+      </form>
+    </div>
+    <div class="card">
+      <div class="card_button_and_city">
+        <button class="backBtn">
+          <!-- <i class="fa-solid fa-backward"></i> --><i
+            class="fa-solid fa-bars"
+          ></i>
+        </button>
+        <p class="cityDisplay">City Name</p>
+      </div>
+      <p class="weatherEmoji" id="weatherEmoji"></p>
+      <!--  <img class="weatherEmoji" id="weatherEmoji"  /> -->
+      <div class="temp_humid_side_side">
+        <p class="tempDisplay">90°</p>
+        <div class="humid_condition-under_under">
+          <p class="atmosDisplay">Clear Skies</p>
+          <p class="humidDisplay">|&nbsp;H: 75% |</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
