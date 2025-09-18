@@ -7,8 +7,11 @@ const errorCreate = document.createElement("p");
 const apiKey = "672fc162020fdf9e1d41c4deaa9a1bed";
 const submitBtn = document.querySelector(".submitBtn");
 let cityDisplay = document.querySelector(".cityDisplay");
+let windDegreeDisplay = document.querySelector(".windDegreeDisplay");
 let weatherEmoji = document.querySelector("#weatherEmoji");
-
+let windSpeed = document.querySelector(".windDisplay");
+let timeDisplay = document.querySelector(".timeDisplay");
+let pressureDisplay = document.querySelector(".pressureDisplay");
 let tempDisplay = document.querySelector(".tempDisplay");
 let atmosDisplay = document.querySelector(".atmosDisplay");
 let humidDisplay = document.querySelector(".humidDisplay");
@@ -21,7 +24,7 @@ weatherForm.addEventListener("submit", async (event) => {
 
   if (cityName) {
     try {
-      const weatherData = await getWeatherData(cityName); 
+      const weatherData = await getWeatherData(cityName);
       if (document.body.contains(errorCreate)) {
         errorCreate.remove();
       }
@@ -74,21 +77,43 @@ async function getWeatherData(cityName) {
 function displayData(weatherData) {
   firstPage.style.display = "none";
   card.style.display = "block";
-
+  const body = document.body;
   const {
     name: city,
-    main: { temp, humidity },
+    main: { temp, humidity, pressure },
     weather: [{ description, id }],
+    wind: { speed, deg },
+    timezone,
   } = weatherData;
 
   cityDisplay.textContent = city;
   tempDisplay.textContent = `${(((temp - 273.15) * 9) / 5 + 32).toFixed(1)}°F`;
-
+  windSpeed.textContent = `${speed}mph`;
   atmosDisplay.textContent = description;
+  windDegreeDisplay.textContent = `${deg}°`;
+  pressureDisplay.textContent = `| P: ${pressure} |`;
   humidDisplay.textContent = `| H: ${humidity}% |`;
   weatherEmoji.textContent = getWeatherEmoji(id);
+  const localTime = getCityTime(timezone);
+  console.log(`Local time in ${city}: ${localTime}`);
+  timeDisplay.textContent = `${localTime}`;
+
   /*  weatherEmoji.src = `https://openweathermap.org/img/wn/${icon}@4x.png`;
    */
+  if (id >= 200 && id < 300) {
+    body.style.background =
+      "linear-gradient(to right, #0f2027, #203a43, #2c5364)";
+  } else if (id >= 300 && id < 600) {
+    body.style.background = "linear-gradient(to right, #3a7bd5, #3a6073)";
+  } else if (id >= 600 && id < 700) {
+    body.style.background = "linear-gradient(to right, #83a4d4, #b6fbff)";
+  } else if (id === 800) {
+    body.style.background = "linear-gradient(to right, #f7971e, #ffd200)";
+  } else if (id > 800 && id < 900) {
+    body.style.background = "linear-gradient(to right, #bdc3c7, #2c3e50)";
+  } else {
+    body.style.background = "linear-gradient(to right, #141e30, #243b55)";
+  }
   backBtn.addEventListener("click", (event) => {
     location.reload();
   });
@@ -111,4 +136,18 @@ function getWeatherEmoji(id) {
     default:
       return "🌍";
   }
+}
+
+function getCityTime(timezoneOffset) {
+  // Current UTC time in milliseconds
+  const nowUTC = new Date().getTime() + new Date().getTimezoneOffset() * 60000;
+
+  // City time in milliseconds
+  const cityTime = new Date(nowUTC + timezoneOffset * 1000);
+
+  // Format time nicely
+  const hours = cityTime.getHours().toString().padStart(2, "0");
+  const minutes = cityTime.getMinutes().toString().padStart(2, "0");
+
+  return `${hours}:${minutes}`;
 }
