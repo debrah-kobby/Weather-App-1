@@ -151,6 +151,7 @@ body {
   padding: 0.5rem 1rem;
   min-width: 70px;
   max-width: 75px;
+  cursor: pointer;
 }
 
 .infoCard .emoji {
@@ -163,10 +164,12 @@ body {
 .windDegreeDisplay {
   font-weight: bold;
   font-size: 1rem;
+
 }
 
 .humid_and_pressure {
   display: flex;
+  cursor: pointer;
 }
 .errorMessage {
   text-align: center;
